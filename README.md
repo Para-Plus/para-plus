@@ -12,10 +12,12 @@ Marketplace e-commerce pour produits parapharmacie, pharmacie, matériel médica
 - **JWT** - Authentification par tokens
 - **Python 3.9+**
 
-### Frontend (À venir)
-- **Next.js 14+** - Framework React avec SSR
+### Frontend
+- **Next.js 14+** - Framework React avec SSR et App Router
 - **TypeScript** - Typage statique
 - **Tailwind CSS** - Styling
+- **Axios** - Client HTTP pour les appels API
+- **Context API** - Gestion d'état pour l'authentification
 
 ### Infrastructure
 - **Serveur**: serv00 (s3.serv00.com)
@@ -217,6 +219,49 @@ python manage.py runserver
 ```
 
 Le serveur sera accessible sur `http://localhost:8000`
+
+## 🎨 Installation Frontend
+
+### Prérequis
+- Node.js 18+
+- npm ou yarn
+
+### Étapes
+
+1. **Naviguer vers le dossier frontend**
+```bash
+cd frontend
+```
+
+2. **Installer les dépendances**
+```bash
+npm install
+# ou
+yarn install
+```
+
+3. **Configurer les variables d'environnement**
+Le fichier `.env.local` est déjà créé avec les bonnes valeurs:
+```env
+NEXT_PUBLIC_API_URL=http://localhost:8000/api
+NEXT_PUBLIC_SITE_URL=http://localhost:3000
+```
+
+4. **Lancer le serveur de développement**
+```bash
+npm run dev
+# ou
+yarn dev
+```
+
+Le frontend sera accessible sur `http://localhost:3000`
+
+### Pages disponibles
+- **/** - Page d'accueil
+- **/inscription** - Inscription (client ou vendeur)
+- **/connexion** - Connexion
+- **/produits** - Liste des produits (à venir)
+- **/location** - Location de matériel (à venir)
 
 ## 🔑 API Endpoints
 
