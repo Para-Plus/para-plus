@@ -5,7 +5,7 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { authApi } from '@/lib/api';
+import { authApi } from '@/lib/api/index';
 import { auth as authUtils } from '@/lib/auth';
 import type { User, ConnexionData, InscriptionData } from '@/types';
 

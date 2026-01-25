@@ -289,4 +289,5 @@ export const paiementsApi = {
   },
 };
 
+export { apiClient };
 export default apiClient;
