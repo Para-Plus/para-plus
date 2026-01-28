@@ -75,22 +75,19 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'paraplus.wsgi.application'
 
-# Configuration MongoDB
+# Configuration MongoDB avec MongoEngine
 MONGODB_URI = config('MONGODB_URI', default='mongodb+srv://paraplus:M92fecI4DHxDheoP@para-plus.g9zicn9.mongodb.net')
 MONGODB_NAME = config('MONGODB_NAME', default='para_plus_db')
 
+# Base de données SQLite factice (Django admin seulement)
 DATABASES = {
     'default': {
-        'ENGINE': 'djongo',
-        'NAME': MONGODB_NAME,
-        'ENFORCE_SCHEMA': False,
-        'CLIENT': {
-            'host': MONGODB_URI,
-        }
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
-# Configuration MongoEngine (pour utilisation directe)
+# Configuration MongoEngine (base de données principale)
 import mongoengine
 mongoengine.connect(
     db=MONGODB_NAME,
