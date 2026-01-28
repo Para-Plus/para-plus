@@ -3,6 +3,7 @@ URLs pour l'authentification.
 """
 from django.urls import path
 from . import views
+from .google_auth import google_auth
 
 app_name = 'authentication'
 
@@ -13,4 +14,5 @@ urlpatterns = [
     path('profil/', views.profil, name='profil'),
     path('profil/modifier/', views.modifier_profil, name='modifier_profil'),
     path('changer-mot-de-passe/', views.changer_mot_de_passe, name='changer_mot_de_passe'),
+    path('google/', google_auth, name='google_auth'),
 ]

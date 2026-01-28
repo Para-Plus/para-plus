@@ -25,3 +25,8 @@ pytz==2024.1
 # Serveur WSGI pour production
 gunicorn==21.2.0
 whitenoise==6.6.0
+
+# Google OAuth
+google-auth==2.28.0
+google-auth-oauthlib==1.2.0
+requests==2.31.0

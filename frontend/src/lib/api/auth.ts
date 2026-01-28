@@ -57,4 +57,12 @@ export const authApi = {
       nouveau_mot_de_passe: nouveauMotDePasse,
     });
   },
+
+  /**
+   * Authentification avec Google OAuth
+   */
+  googleAuth: async (credential: string): Promise<AuthResponse> => {
+    const response = await apiClient.post<AuthResponse>('/auth/google/', { credential });
+    return response.data;
+  },
 };

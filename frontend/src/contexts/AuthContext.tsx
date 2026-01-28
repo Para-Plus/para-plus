@@ -16,6 +16,7 @@ interface AuthContextType {
   register: (data: InscriptionData) => Promise<void>;
   logout: () => Promise<void>;
   refreshUser: () => Promise<void>;
+  loginWithGoogle: (googleToken: string) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -99,6 +100,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  // Connexion avec Google OAuth
+  const loginWithGoogle = async (googleToken: string) => {
+    try {
+      const response = await authApi.googleAuth(googleToken);
+      authUtils.login(response.access, response.refresh, response.user);
+      setUser(response.user);
+    } catch (error) {
+      throw error;
+    }
+  };
+
   return (
     <AuthContext.Provider
       value={{
@@ -108,6 +120,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         register,
         logout,
         refreshUser,
+        loginWithGoogle,
       }}
     >
       {children}

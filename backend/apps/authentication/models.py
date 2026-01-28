@@ -21,10 +21,15 @@ class User(Document):
 
     # Champs de base
     email = EmailField(required=True, unique=True)
-    mot_de_passe = StringField(required=True)  # Hashé avec bcrypt
+    mot_de_passe = StringField()  # Hashé avec bcrypt (optionnel pour OAuth)
     nom = StringField(required=True, max_length=100)
     prenom = StringField(required=True, max_length=100)
     telephone = StringField(max_length=20)
+
+    # Google OAuth
+    google_id = StringField(unique=True, sparse=True)  # ID Google unique
+    photo_url = StringField()  # URL de la photo de profil
+    auth_provider = StringField(default='email', choices=['email', 'google'])  # Méthode d'authentification
 
     # Rôle
     role = StringField(required=True, choices=ROLE_CHOICES, default=ROLE_CLIENT)
@@ -47,7 +52,8 @@ class User(Document):
         'indexes': [
             'email',
             'role',
-            'date_inscription'
+            'date_inscription',
+            'google_id'
         ]
     }
 
@@ -63,6 +69,8 @@ class User(Document):
 
     def verifier_mot_de_passe(self, mot_de_passe_brut):
         """Vérifier le mot de passe."""
+        if not self.mot_de_passe:
+            return False
         return bcrypt.checkpw(
             mot_de_passe_brut.encode('utf-8'),
             self.mot_de_passe.encode('utf-8')

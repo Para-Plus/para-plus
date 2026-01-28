@@ -8,6 +8,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useAuth } from '@/contexts/AuthContext';
+import GoogleSignInButton from '@/components/GoogleSignInButton';
 import type { ConnexionData } from '@/types';
 
 export default function ConnexionPage() {
@@ -68,6 +69,25 @@ export default function ConnexionPage() {
             <p className="text-red-600 text-sm">{error}</p>
           </div>
         )}
+
+        {/* Google Sign In */}
+        <div className="mb-6">
+          <GoogleSignInButton
+            text="signin_with"
+            onSuccess={() => router.push('/')}
+            onError={(error) => setError(error)}
+          />
+        </div>
+
+        {/* Divider */}
+        <div className="relative mb-6">
+          <div className="absolute inset-0 flex items-center">
+            <div className="w-full border-t border-gray-300"></div>
+          </div>
+          <div className="relative flex justify-center text-sm">
+            <span className="px-4 bg-white text-gray-500">Ou avec email</span>
+          </div>
+        </div>
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -139,16 +159,6 @@ export default function ConnexionPage() {
             S'inscrire
           </Link>
         </p>
-
-        {/* Divider */}
-        <div className="mt-8 relative">
-          <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-gray-300"></div>
-          </div>
-          <div className="relative flex justify-center text-sm">
-            <span className="px-2 bg-white text-gray-500">Ou</span>
-          </div>
-        </div>
 
         {/* Vendor Link */}
         <div className="mt-6">

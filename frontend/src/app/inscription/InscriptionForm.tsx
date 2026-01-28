@@ -7,6 +7,7 @@
 import { useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
+import GoogleSignInButton from '@/components/GoogleSignInButton';
 import type { InscriptionData } from '@/types';
 
 export default function InscriptionForm() {
@@ -63,6 +64,25 @@ export default function InscriptionForm() {
           <p className="text-red-600 text-sm">{error}</p>
         </div>
       )}
+
+      {/* Google Sign In */}
+      <div className="mb-6">
+        <GoogleSignInButton
+          text="signup_with"
+          onSuccess={() => router.push('/')}
+          onError={(error) => setError(error)}
+        />
+      </div>
+
+      {/* Divider */}
+      <div className="relative mb-6">
+        <div className="absolute inset-0 flex items-center">
+          <div className="w-full border-t border-gray-300"></div>
+        </div>
+        <div className="relative flex justify-center text-sm">
+          <span className="px-4 bg-white text-gray-500">Ou avec email</span>
+        </div>
+      </div>
 
       {/* Form */}
       <form onSubmit={handleSubmit} className="space-y-4">
