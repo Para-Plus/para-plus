@@ -14,7 +14,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SÉCURITÉ
 SECRET_KEY = config('SECRET_KEY', default='django-insecure-changez-moi-en-production-para-plus-2026')
 DEBUG = config('DEBUG', default=True, cast=bool)
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1,para-plus.tn,api.para-plus.tn,s3.serv00.com').split(',')
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1,para-plus.tn,api.para-plus.tn,s3.serv00.com,*.onrender.com').split(',')
+
+# Accepter tous les sous-domaines onrender.com
+if not DEBUG:
+    ALLOWED_HOSTS.append('.onrender.com')
 
 # Applications installées
 INSTALLED_APPS = [
@@ -41,6 +45,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # Pour servir les fichiers statiques
     'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -124,6 +129,9 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# Configuration WhiteNoise pour servir les fichiers statiques en production
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Configuration REST Framework
 REST_FRAMEWORK = {

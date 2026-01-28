@@ -6,9 +6,17 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from rest_framework_simplejwt.views import TokenRefreshView
+from django.http import JsonResponse
+
+def health_check(request):
+    """Endpoint de santé pour les services de monitoring"""
+    return JsonResponse({'status': 'ok', 'service': 'para-plus-api'})
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+
+    # Health check
+    path('health/', health_check, name='health_check'),
 
     # API URLs
     path('api/auth/', include('apps.authentication.urls')),
