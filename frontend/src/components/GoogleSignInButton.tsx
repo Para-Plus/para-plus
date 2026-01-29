@@ -22,22 +22,26 @@ export default function GoogleSignInButton({
   const { loginWithGoogle } = useAuth();
   const [loading, setLoading] = useState(false);
 
-  const handleSuccess = async (credentialResponse: CredentialResponse) => {
+  const handleSuccess = (credentialResponse: CredentialResponse) => {
     if (!credentialResponse.credential) {
       onError?.('Aucun token reçu de Google');
       return;
     }
 
     setLoading(true);
-    try {
-      await loginWithGoogle(credentialResponse.credential);
-      onSuccess?.();
-    } catch (error: any) {
-      const errorMessage = error?.response?.data?.error || error?.message || 'Erreur lors de la connexion avec Google';
-      onError?.(errorMessage);
-    } finally {
-      setLoading(false);
-    }
+
+    // Exécuter de manière asynchrone sans bloquer
+    loginWithGoogle(credentialResponse.credential)
+      .then(() => {
+        onSuccess?.();
+      })
+      .catch((error: any) => {
+        const errorMessage = error?.response?.data?.error || error?.message || 'Erreur lors de la connexion avec Google';
+        onError?.(errorMessage);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   const handleError = () => {
@@ -63,7 +67,6 @@ export default function GoogleSignInButton({
         shape="rectangular"
         size="large"
         width="100%"
-        locale="fr"
       />
     </div>
   );

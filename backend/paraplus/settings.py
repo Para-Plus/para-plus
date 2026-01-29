@@ -33,6 +33,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'corsheaders',
+    'cloudinary_storage',
+    'cloudinary',
 
     # Applications locales
     'apps.authentication',
@@ -126,6 +128,19 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# Configuration Cloudinary pour stockage images en production
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': config('CLOUDINARY_CLOUD_NAME', default=''),
+    'API_KEY': config('CLOUDINARY_API_KEY', default=''),
+    'API_SECRET': config('CLOUDINARY_API_SECRET', default=''),
+}
+
+# Utiliser Cloudinary en production, système de fichiers local en développement
+if not DEBUG and CLOUDINARY_STORAGE['CLOUD_NAME']:
+    DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+else:
+    DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
 
 # Configuration WhiteNoise pour servir les fichiers statiques en production
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
