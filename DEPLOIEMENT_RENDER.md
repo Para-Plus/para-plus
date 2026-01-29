@@ -153,8 +153,8 @@ JWT_SECRET_KEY=votre-jwt-secret-key-changez-aussi
 CORS_ALLOWED_ORIGINS=https://para-plus-tn.vercel.app,https://para-plus.tn,http://localhost:3000
 
 # Google OAuth
-GOOGLE_CLIENT_ID=287357375914-tlpvlhmktpk61rmcearpaph4j9oa4p2e.apps.googleusercontent.com
-GOOGLE_CLIENT_SECRET=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
+GOOGLE_CLIENT_ID=733593700986-spij7b9sdfisnn25fpp17fdqrbt63v9v.apps.googleusercontent.com
+GOOGLE_CLIENT_SECRET=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
 
 # Cloudinary (IMPORTANT!)
 CLOUDINARY_CLOUD_NAME=votre_cloud_name
@@ -303,7 +303,7 @@ Dans Vercel → Votre projet → **Settings** → **Environment Variables**:
 
 ```bash
 NEXT_PUBLIC_API_URL=https://para-plus-api.onrender.com/api
-NEXT_PUBLIC_GOOGLE_CLIENT_ID=287357375914-tlpvlhmktpk61rmcearpaph4j9oa4p2e.apps.googleusercontent.com
+NEXT_PUBLIC_GOOGLE_CLIENT_ID=733593700986-spij7b9sdfisnn25fpp17fdqrbt63v9v.apps.googleusercontent.com
 ```
 
 ### Redéployer le frontend
