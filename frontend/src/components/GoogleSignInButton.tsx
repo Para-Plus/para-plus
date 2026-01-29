@@ -66,7 +66,6 @@ export default function GoogleSignInButton({
         text={text}
         shape="rectangular"
         size="large"
-        width="100%"
       />
     </div>
   );
