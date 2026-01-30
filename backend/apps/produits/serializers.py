@@ -1,27 +1,31 @@
 """
 Serializers pour les produits et catégories.
+Utilise les serializers standards DRF (compatible toutes versions Python).
 """
 from rest_framework import serializers
-from rest_framework_mongoengine import serializers as mongo_serializers
 from .models import Produit, Categorie
 
 
-class CategorieSerializer(mongo_serializers.DocumentSerializer):
+class CategorieSerializer(serializers.Serializer):
     """
     Serializer pour les catégories.
     """
-    id = serializers.CharField(read_only=True)
+    id = serializers.SerializerMethodField()
+    nom = serializers.CharField(max_length=100)
+    slug = serializers.CharField()
+    description = serializers.CharField(required=False, allow_blank=True, default='')
+    image = serializers.URLField(required=False, allow_blank=True, default='')
+    parent = serializers.SerializerMethodField()
     parent_nom = serializers.SerializerMethodField()
+    est_active = serializers.BooleanField(default=True)
+    date_creation = serializers.DateTimeField(read_only=True)
     sous_categories_count = serializers.SerializerMethodField()
 
-    class Meta:
-        model = Categorie
-        fields = [
-            'id', 'nom', 'slug', 'description', 'image',
-            'parent', 'parent_nom', 'est_active', 'date_creation',
-            'sous_categories_count'
-        ]
-        read_only_fields = ['date_creation']
+    def get_id(self, obj):
+        return str(obj.id)
+
+    def get_parent(self, obj):
+        return str(obj.parent.id) if obj.parent else None
 
     def get_parent_nom(self, obj):
         """Retourne le nom de la catégorie parente."""
@@ -32,24 +36,33 @@ class CategorieSerializer(mongo_serializers.DocumentSerializer):
         return Categorie.objects(parent=obj).count()
 
 
-class ProduitListSerializer(mongo_serializers.DocumentSerializer):
+class ProduitListSerializer(serializers.Serializer):
     """
     Serializer pour la liste des produits (version allégée).
     """
-    id = serializers.CharField(read_only=True)
+    id = serializers.SerializerMethodField()
+    nom = serializers.CharField()
+    slug = serializers.CharField()
+    description = serializers.CharField()
+    type_produit = serializers.CharField()
+    prix = serializers.FloatField()
+    stock = serializers.IntegerField()
+    categorie = serializers.SerializerMethodField()
     categorie_nom = serializers.SerializerMethodField()
     image_principale = serializers.SerializerMethodField()
+    disponible_location = serializers.BooleanField()
+    prix_location_jour = serializers.FloatField(required=False, allow_null=True)
+    est_actif = serializers.BooleanField()
+    est_en_vedette = serializers.BooleanField()
     est_disponible = serializers.SerializerMethodField()
+    date_creation = serializers.DateTimeField()
+    date_modification = serializers.DateTimeField()
 
-    class Meta:
-        model = Produit
-        fields = [
-            'id', 'nom', 'slug', 'description', 'type_produit',
-            'prix', 'stock', 'categorie', 'categorie_nom',
-            'image_principale', 'disponible_location', 'prix_location_jour',
-            'est_actif', 'est_en_vedette', 'est_disponible',
-            'date_creation', 'date_modification'
-        ]
+    def get_id(self, obj):
+        return str(obj.id)
+
+    def get_categorie(self, obj):
+        return str(obj.categorie.id) if obj.categorie else None
 
     def get_categorie_nom(self, obj):
         """Retourne le nom de la catégorie."""
@@ -64,25 +77,41 @@ class ProduitListSerializer(mongo_serializers.DocumentSerializer):
         return obj.est_disponible()
 
 
-class ProduitDetailSerializer(mongo_serializers.DocumentSerializer):
+class ProduitDetailSerializer(serializers.Serializer):
     """
     Serializer pour le détail d'un produit (version complète).
     """
-    id = serializers.CharField(read_only=True)
-    categorie_info = CategorieSerializer(source='categorie', read_only=True)
+    id = serializers.SerializerMethodField()
+    nom = serializers.CharField()
+    slug = serializers.CharField()
+    description = serializers.CharField()
+    type_produit = serializers.CharField()
+    prix = serializers.FloatField()
+    stock = serializers.IntegerField()
+    categorie = serializers.SerializerMethodField()
+    categorie_info = serializers.SerializerMethodField()
+    vendeur_id = serializers.CharField()
     vendeur_nom = serializers.SerializerMethodField()
+    images = serializers.ListField(child=serializers.URLField(), required=False, default=[])
+    disponible_location = serializers.BooleanField()
+    prix_location_jour = serializers.FloatField(required=False, allow_null=True)
+    est_actif = serializers.BooleanField()
+    est_en_vedette = serializers.BooleanField()
     est_disponible = serializers.SerializerMethodField()
+    date_creation = serializers.DateTimeField()
+    date_modification = serializers.DateTimeField()
 
-    class Meta:
-        model = Produit
-        fields = [
-            'id', 'nom', 'slug', 'description', 'type_produit',
-            'prix', 'stock', 'categorie', 'categorie_info',
-            'vendeur_id', 'vendeur_nom', 'images',
-            'disponible_location', 'prix_location_jour',
-            'est_actif', 'est_en_vedette', 'est_disponible',
-            'date_creation', 'date_modification'
-        ]
+    def get_id(self, obj):
+        return str(obj.id)
+
+    def get_categorie(self, obj):
+        return str(obj.categorie.id) if obj.categorie else None
+
+    def get_categorie_info(self, obj):
+        """Retourne les infos complètes de la catégorie."""
+        if obj.categorie:
+            return CategorieSerializer(obj.categorie).data
+        return None
 
     def get_vendeur_nom(self, obj):
         """Retourne le nom du vendeur."""
@@ -98,31 +127,33 @@ class ProduitDetailSerializer(mongo_serializers.DocumentSerializer):
         return obj.est_disponible()
 
 
-class ProduitCreateUpdateSerializer(mongo_serializers.DocumentSerializer):
+class ProduitCreateUpdateSerializer(serializers.Serializer):
     """
     Serializer pour créer/modifier un produit.
     """
     id = serializers.CharField(read_only=True)
-
-    class Meta:
-        model = Produit
-        fields = [
-            'id', 'nom', 'slug', 'description', 'type_produit',
-            'prix', 'stock', 'categorie', 'vendeur_id', 'images',
-            'disponible_location', 'prix_location_jour',
-            'est_actif', 'est_en_vedette'
-        ]
+    nom = serializers.CharField(max_length=200)
+    slug = serializers.CharField(required=False, allow_blank=True)
+    description = serializers.CharField()
+    type_produit = serializers.ChoiceField(choices=['parapharmacie', 'pharmacie', 'medical'])
+    prix = serializers.FloatField(min_value=0)
+    stock = serializers.IntegerField(min_value=0, default=0)
+    categorie = serializers.CharField()
+    vendeur_id = serializers.CharField(required=False)
+    images = serializers.ListField(child=serializers.URLField(), required=False, default=[])
+    disponible_location = serializers.BooleanField(default=False)
+    prix_location_jour = serializers.FloatField(min_value=0, required=False, allow_null=True)
+    est_actif = serializers.BooleanField(default=True)
+    est_en_vedette = serializers.BooleanField(default=False)
 
     def validate_slug(self, value):
         """Valider l'unicité du slug."""
         instance = self.instance
         if instance:
-            # Update: vérifier si le slug existe pour un autre produit
             if Produit.objects(slug=value, id__ne=instance.id).first():
                 raise serializers.ValidationError("Ce slug existe déjà.")
         else:
-            # Create: vérifier si le slug existe
-            if Produit.objects(slug=value).first():
+            if value and Produit.objects(slug=value).first():
                 raise serializers.ValidationError("Ce slug existe déjà.")
         return value
 
@@ -140,9 +171,36 @@ class ProduitCreateUpdateSerializer(mongo_serializers.DocumentSerializer):
 
     def validate(self, data):
         """Validation globale."""
-        # Si disponible en location, le prix de location est requis
         if data.get('disponible_location') and not data.get('prix_location_jour'):
             raise serializers.ValidationError({
                 'prix_location_jour': 'Le prix de location par jour est requis.'
             })
         return data
+
+    def create(self, validated_data):
+        """Créer un nouveau produit."""
+        categorie_id = validated_data.pop('categorie')
+        try:
+            categorie = Categorie.objects.get(id=categorie_id)
+        except Categorie.DoesNotExist:
+            raise serializers.ValidationError({'categorie': 'Catégorie non trouvée.'})
+
+        validated_data['categorie'] = categorie
+        produit = Produit(**validated_data)
+        produit.save()
+        return produit
+
+    def update(self, instance, validated_data):
+        """Mettre à jour un produit existant."""
+        categorie_id = validated_data.pop('categorie', None)
+        if categorie_id:
+            try:
+                instance.categorie = Categorie.objects.get(id=categorie_id)
+            except Categorie.DoesNotExist:
+                raise serializers.ValidationError({'categorie': 'Catégorie non trouvée.'})
+
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+
+        instance.save()
+        return instance
