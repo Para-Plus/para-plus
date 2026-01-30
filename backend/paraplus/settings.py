@@ -91,7 +91,7 @@ DATABASES = {
 # Configuration MongoEngine - base de données unique
 import mongoengine
 mongoengine.connect(
-    db='Produits',
+    db='Database',
     host=MONGODB_URI,
     alias='default'
 )

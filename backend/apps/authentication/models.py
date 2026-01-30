@@ -48,7 +48,7 @@ class User(Document):
     derniere_connexion = DateTimeField()
 
     meta = {
-        'collection': 'users',
+        'collection': 'Users',
         'indexes': [
             'email',
             'role',

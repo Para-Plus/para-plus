@@ -24,7 +24,7 @@ class Categorie(Document):
     date_creation = DateTimeField(default=datetime.utcnow)
 
     meta = {
-        'collection': 'categories',
+        'collection': 'Categorie',
         'indexes': ['slug', 'est_active']
     }
 
@@ -77,7 +77,7 @@ class Produit(Document):
     date_modification = DateTimeField(default=datetime.utcnow)
 
     meta = {
-        'collection': 'products',
+        'collection': 'Produits',
         'indexes': [
             'slug',
             'type_produit',
