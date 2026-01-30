@@ -79,7 +79,7 @@ WSGI_APPLICATION = 'paraplus.wsgi.application'
 
 # Configuration MongoDB avec MongoEngine
 MONGODB_URI = config('MONGODB_URI', default='mongodb+srv://paraplus:M92fecI4DHxDheoP@para-plus.g9zicn9.mongodb.net')
-MONGODB_NAME = config('MONGODB_NAME', default='para_plus_db')
+MONGODB_NAME = config('MONGODB_NAME', default='Produits')
 
 # Base de données SQLite factice (Django admin seulement)
 DATABASES = {
