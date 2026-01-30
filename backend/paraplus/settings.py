@@ -79,7 +79,6 @@ WSGI_APPLICATION = 'paraplus.wsgi.application'
 
 # Configuration MongoDB avec MongoEngine
 MONGODB_URI = config('MONGODB_URI', default='mongodb+srv://paraplus:M92fecI4DHxDheoP@para-plus.g9zicn9.mongodb.net')
-MONGODB_NAME = config('MONGODB_NAME', default='Produits')
 
 # Base de données SQLite factice (Django admin seulement)
 DATABASES = {
@@ -89,12 +88,19 @@ DATABASES = {
     }
 }
 
-# Configuration MongoEngine (base de données principale)
+# Configuration MongoEngine - deux bases de données
 import mongoengine
+# Base "Produits" (produits, catégories)
 mongoengine.connect(
-    db=MONGODB_NAME,
+    db='Produits',
     host=MONGODB_URI,
     alias='default'
+)
+# Base "Users" (authentification)
+mongoengine.connect(
+    db='Users',
+    host=MONGODB_URI,
+    alias='users'
 )
 
 # Validation des mots de passe

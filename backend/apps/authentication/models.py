@@ -48,6 +48,7 @@ class User(Document):
     derniere_connexion = DateTimeField()
 
     meta = {
+        'db_alias': 'users',
         'collection': 'users',
         'indexes': [
             'email',
