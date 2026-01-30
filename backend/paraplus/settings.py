@@ -88,19 +88,12 @@ DATABASES = {
     }
 }
 
-# Configuration MongoEngine - deux bases de données
+# Configuration MongoEngine - base de données unique
 import mongoengine
-# Base "Produits" (produits, catégories)
 mongoengine.connect(
     db='Produits',
     host=MONGODB_URI,
     alias='default'
-)
-# Base "Users" (authentification)
-mongoengine.connect(
-    db='Users',
-    host=MONGODB_URI,
-    alias='users'
 )
 
 # Validation des mots de passe
