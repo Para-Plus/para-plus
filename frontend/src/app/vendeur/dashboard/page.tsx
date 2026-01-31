@@ -216,7 +216,7 @@ export default function VendeurDashboardPage() {
               <div className="flex items-center justify-between mb-6">
                 <h2 className="text-xl font-bold text-gray-900">Mes Produits</h2>
                 <Link
-                  href="/vendeur/produits/nouveau"
+                  href="/vendeur/produits/ajouter"
                   className="flex items-center gap-2 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 font-medium"
                 >
                   <Plus className="w-5 h-5" />
@@ -234,7 +234,7 @@ export default function VendeurDashboardPage() {
                   <Package className="w-16 h-16 text-gray-400 mx-auto mb-4" />
                   <p className="text-gray-600 mb-4">Vous n'avez pas encore de produits</p>
                   <Link
-                    href="/vendeur/produits/nouveau"
+                    href="/vendeur/produits/ajouter"
                     className="inline-flex items-center gap-2 text-green-600 hover:text-green-700 font-medium"
                   >
                     <Plus className="w-5 h-5" />
