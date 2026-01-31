@@ -201,6 +201,12 @@ def choisir_role(request):
     Body: { "role": "client" | "vendeur" }
     """
     user_id = request.user.get('user_id')
+
+    if not user_id:
+        return Response({
+            'error': 'Token invalide'
+        }, status=status.HTTP_401_UNAUTHORIZED)
+
     user = User.objects(id=user_id).first()
 
     if not user:
