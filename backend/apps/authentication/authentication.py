@@ -43,16 +43,13 @@ class MongoJWTAuthentication(JWTAuthentication):
 
         try:
             user = User.objects(id=user_id).first()
-        except Exception as e:
-            print(f"ERROR MongoJWTAuthentication - Exception lors de la recherche de l'utilisateur: {str(e)}")
+        except Exception:
             raise AuthenticationFailed('Utilisateur non trouvé')
 
         if user is None:
-            print(f"ERROR MongoJWTAuthentication - Utilisateur non trouvé pour user_id: {user_id}")
             raise AuthenticationFailed('Utilisateur non trouvé')
 
         if not user.est_actif:
-            print(f"ERROR MongoJWTAuthentication - Utilisateur inactif: {user_id}")
             raise AuthenticationFailed('Utilisateur inactif')
 
         # Retourner un objet TokenUser qui encapsule le payload du token
