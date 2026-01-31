@@ -7,58 +7,6 @@ import Link from 'next/link';
 export default function Home() {
   return (
     <div className="min-h-screen bg-white">
-      {/* Header moderne avec navigation sticky */}
-      <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md shadow-sm border-b border-gray-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16 sm:h-20">
-            {/* Logo */}
-            <Link href="/" className="flex items-center space-x-2 group">
-              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-green-500 to-emerald-600 rounded-lg flex items-center justify-center transform group-hover:scale-110 transition-transform duration-200">
-                <span className="text-white font-bold text-lg sm:text-xl">P+</span>
-              </div>
-              <span className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent">
-                Para-plus.tn
-              </span>
-            </Link>
-
-            {/* Navigation desktop */}
-            <nav className="hidden md:flex items-center space-x-8">
-              <Link href="/produits" className="text-gray-700 hover:text-green-600 font-medium transition-colors">
-                Produits
-              </Link>
-              <Link href="/location" className="text-gray-700 hover:text-green-600 font-medium transition-colors">
-                Location
-              </Link>
-              <Link href="/connexion" className="text-gray-700 hover:text-green-600 font-medium transition-colors">
-                Connexion
-              </Link>
-              <Link
-                href="/inscription"
-                className="px-6 py-2.5 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-full font-semibold hover:shadow-lg hover:scale-105 transition-all duration-200"
-              >
-                Inscription
-              </Link>
-            </nav>
-
-            {/* Menu mobile */}
-            <div className="md:hidden flex items-center space-x-2">
-              <Link
-                href="/connexion"
-                className="px-4 py-2 text-sm text-gray-700 hover:text-green-600 font-medium"
-              >
-                Connexion
-              </Link>
-              <Link
-                href="/inscription"
-                className="px-4 py-2 text-sm bg-green-600 text-white rounded-full font-semibold hover:bg-green-700"
-              >
-                Inscription
-              </Link>
-            </div>
-          </div>
-        </div>
-      </header>
-
       {/* Hero Section moderne avec gradient */}
       <section className="relative overflow-hidden bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50">
         {/* Formes décoratives en arrière-plan */}
