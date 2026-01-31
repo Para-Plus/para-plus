@@ -8,7 +8,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 class UserSerializer(serializers.Serializer):
     """Serializer pour le modèle User (MongoEngine)."""
-    id = serializers.CharField(read_only=True)
+    id = serializers.SerializerMethodField()
     email = serializers.EmailField()
     nom = serializers.CharField(max_length=100)
     prenom = serializers.CharField(max_length=100)
@@ -20,6 +20,12 @@ class UserSerializer(serializers.Serializer):
     est_actif = serializers.BooleanField(read_only=True)
     est_verifie = serializers.BooleanField(read_only=True)
     date_inscription = serializers.DateTimeField(read_only=True)
+    photo_url = serializers.URLField(required=False, allow_blank=True, default='')
+    auth_provider = serializers.CharField(default='email')
+
+    def get_id(self, obj):
+        """Convertir ObjectId MongoDB en string."""
+        return str(obj.id)
 
     def create(self, validated_data):
         """Créer un nouvel utilisateur."""
