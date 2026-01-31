@@ -82,3 +82,5 @@ logs/
 .cache/
 .tmp/
 temp/
+NUL
+backup_public_html/

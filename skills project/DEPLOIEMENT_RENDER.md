@@ -143,7 +143,7 @@ DEBUG=False
 ALLOWED_HOSTS=para-plus-api.onrender.com,.onrender.com,para-plus.tn,api.para-plus.tn
 
 # MongoDB Atlas
-MONGODB_URI=mongodb+srv://paraplus:M92fecI4DHxDheoP@para-plus.g9zicn9.mongodb.net
+MONGODB_URI=mongodb+srv://paraplus:VOTRE_MONGODB_PASSWORD@para-plus.g9zicn9.mongodb.net
 MONGODB_NAME=para_plus_db
 
 # JWT
@@ -153,8 +153,8 @@ JWT_SECRET_KEY=votre-jwt-secret-key-changez-aussi
 CORS_ALLOWED_ORIGINS=https://para-plus-tn.vercel.app,https://para-plus.tn,http://localhost:3000
 
 # Google OAuth
-GOOGLE_CLIENT_ID=733593700986-spij7b9sdfisnn25fpp17fdqrbt63v9v.apps.googleusercontent.com
-GOOGLE_CLIENT_SECRET=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
+GOOGLE_CLIENT_ID=VOTRE_GOOGLE_CLIENT_ID
+GOOGLE_CLIENT_SECRET=VOTRE_GOOGLE_CLIENT_SECRET
 
 # Cloudinary (IMPORTANT!)
 CLOUDINARY_CLOUD_NAME=votre_cloud_name
@@ -303,7 +303,7 @@ Dans Vercel → Votre projet → **Settings** → **Environment Variables**:
 
 ```bash
 NEXT_PUBLIC_API_URL=https://para-plus-api.onrender.com/api
-NEXT_PUBLIC_GOOGLE_CLIENT_ID=733593700986-spij7b9sdfisnn25fpp17fdqrbt63v9v.apps.googleusercontent.com
+NEXT_PUBLIC_GOOGLE_CLIENT_ID=VOTRE_GOOGLE_CLIENT_ID
 ```
 
 ### Redéployer le frontend

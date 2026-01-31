@@ -47,7 +47,7 @@ NEXT_PUBLIC_SITE_URL=https://para-plus.vercel.app
 
 ```env
 # MongoDB (si Next.js fait des requêtes directes - optionnel)
-MONGODB_URI=mongodb+srv://paraplus:M92fecI4DHxDheoP@para-plus.g9zicn9.mongodb.net/para_plus_db
+MONGODB_URI=mongodb+srv://paraplus:VOTRE_MONGODB_PASSWORD@para-plus.g9zicn9.mongodb.net/para_plus_db
 
 # Stripe (à ajouter plus tard)
 NEXT_PUBLIC_STRIPE_PUBLIC_KEY=pk_live_...

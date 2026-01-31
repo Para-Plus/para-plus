@@ -16,8 +16,8 @@ Cette erreur signifie que votre URL Vercel n'est pas enregistrée dans Google Cl
 ### 📍 Identifiants actuels
 
 ```
-Client ID: 733593700986-spij7b9sdfisnn25fpp17fdqrbt63v9v.apps.googleusercontent.com
-Client Secret: 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
+Client ID: VOTRE_GOOGLE_CLIENT_ID
+Client Secret: VOTRE_GOOGLE_CLIENT_SECRET
 ```
 
 ### 🔗 Étapes de configuration
@@ -94,7 +94,7 @@ Après avoir configuré Google Cloud Console, configurez aussi Vercel :
 |------|-------|-------------|
 | `NEXT_PUBLIC_API_URL` | `https://para-plus-tn.onrender.com/api` | Production, Preview, Development |
 | `NEXT_PUBLIC_SITE_URL` | `https://para-plus-tn.vercel.app` | Production |
-| `NEXT_PUBLIC_GOOGLE_CLIENT_ID` | `733593700986-spij7b9sdfisnn25fpp17fdqrbt63v9v.apps.googleusercontent.com` | Production, Preview, Development |
+| `NEXT_PUBLIC_GOOGLE_CLIENT_ID` | `VOTRE_GOOGLE_CLIENT_ID` | Production, Preview, Development |
 
 3. **Redéployez** après avoir ajouté les variables :
    - Deployments → ... → Redeploy
@@ -129,7 +129,7 @@ console.log(process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID)
 
 Vous devriez voir :
 ```
-733593700986-spij7b9sdfisnn25fpp17fdqrbt63v9v.apps.googleusercontent.com
+VOTRE_GOOGLE_CLIENT_ID
 ```
 
 Si ce n'est pas le cas, les variables Vercel ne sont pas configurées.

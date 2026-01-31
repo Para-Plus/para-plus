@@ -28,7 +28,7 @@ Guide pour configurer l'URL de votre backend Render dans Vercel.
    |------|-------|-------------|
    | `NEXT_PUBLIC_API_URL` | `https://para-plus-tn.onrender.com/api` | Production, Preview, Development |
    | `NEXT_PUBLIC_SITE_URL` | `https://para-plus-tn.vercel.app` | Production |
-   | `NEXT_PUBLIC_GOOGLE_CLIENT_ID` | `733593700986-spij7b9sdfisnn25fpp17fdqrbt63v9v.apps.googleusercontent.com` | Production, Preview, Development |
+   | `NEXT_PUBLIC_GOOGLE_CLIENT_ID` | `VOTRE_GOOGLE_CLIENT_ID` | Production, Preview, Development |
 
 6. **Pour chaque variable:**
    - Cliquez sur **"Add New"**
@@ -83,7 +83,7 @@ vercel env add NEXT_PUBLIC_SITE_URL production
 # Quand demandé, entrez: https://para-plus-tn.vercel.app
 
 vercel env add NEXT_PUBLIC_GOOGLE_CLIENT_ID production
-# Quand demandé, entrez: 733593700986-spij7b9sdfisnn25fpp17fdqrbt63v9v.apps.googleusercontent.com
+# Quand demandé, entrez: VOTRE_GOOGLE_CLIENT_ID
 
 # Preview (optionnel)
 vercel env add NEXT_PUBLIC_API_URL preview
@@ -116,7 +116,7 @@ NEXT_PUBLIC_API_URL=https://para-plus-tn.onrender.com/api
 NEXT_PUBLIC_SITE_URL=https://para-plus-tn.vercel.app
 
 # Google OAuth
-NEXT_PUBLIC_GOOGLE_CLIENT_ID=287357375914-tlpvlhmktpk61rmcearpaph4j9oa4p2e.apps.googleusercontent.com
+NEXT_PUBLIC_GOOGLE_CLIENT_ID=ANCIEN_GOOGLE_CLIENT_ID
 ```
 
 **Note:** Le fichier `.env.local` est dans `.gitignore` et ne sera PAS déployé sur Vercel. C'est pourquoi vous devez configurer les variables via l'interface Vercel ou la CLI.
@@ -235,7 +235,7 @@ Ces variables sont accessibles uniquement côté serveur (API routes, Server Com
 # Vercel Environment Variables
 NEXT_PUBLIC_API_URL=https://para-plus-tn.onrender.com/api
 NEXT_PUBLIC_SITE_URL=https://para-plus-tn.vercel.app
-NEXT_PUBLIC_GOOGLE_CLIENT_ID=733593700986-spij7b9sdfisnn25fpp17fdqrbt63v9v.apps.googleusercontent.com
+NEXT_PUBLIC_GOOGLE_CLIENT_ID=VOTRE_GOOGLE_CLIENT_ID
 ```
 
 ### URLs à vérifier:

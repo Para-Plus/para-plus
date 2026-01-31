@@ -81,7 +81,7 @@ DEBUG=False
 ALLOWED_HOSTS=para-plus.tn,www.para-plus.tn,api.para-plus.tn,s3.serv00.com
 
 # MongoDB Configuration
-MONGODB_URI=mongodb+srv://paraplus:M92fecI4DHxDheoP@para-plus.g9zicn9.mongodb.net
+MONGODB_URI=mongodb+srv://paraplus:VOTRE_MONGODB_PASSWORD@para-plus.g9zicn9.mongodb.net
 MONGODB_NAME=para_plus_db
 
 # JWT Configuration
@@ -283,7 +283,7 @@ python manage.py shell
 
 # Dans le shell Python
 >>> from mongoengine import connect
->>> connect(host='mongodb+srv://paraplus:M92fecI4DHxDheoP@para-plus.g9zicn9.mongodb.net/para_plus_db')
+>>> connect(host='mongodb+srv://paraplus:VOTRE_MONGODB_PASSWORD@para-plus.g9zicn9.mongodb.net/para_plus_db')
 >>> from apps.authentication.models import User
 >>> User.objects.count()
 ```

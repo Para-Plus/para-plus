@@ -94,7 +94,7 @@ https://console.cloud.google.com/apis/credentials
 
 **2. Trouvez votre OAuth Client ID :**
 ```
-733593700986-spij7b9sdfisnn25fpp17fdqrbt63v9v.apps.googleusercontent.com
+VOTRE_GOOGLE_CLIENT_ID
 ```
 
 **3. Vérifiez "Authorized JavaScript origins" :**
@@ -127,7 +127,7 @@ http://localhost:3000/inscription
 |----------|--------|---------------|
 | `NEXT_PUBLIC_API_URL` | `https://para-plus-tn.onrender.com/api` | Production, Preview, Development |
 | `NEXT_PUBLIC_SITE_URL` | `https://para-plus-tn.vercel.app` | Production |
-| `NEXT_PUBLIC_GOOGLE_CLIENT_ID` | `733593700986-spij7b9sdfisnn25fpp17fdqrbt63v9v.apps.googleusercontent.com` | Production, Preview, Development |
+| `NEXT_PUBLIC_GOOGLE_CLIENT_ID` | `VOTRE_GOOGLE_CLIENT_ID` | Production, Preview, Development |
 
 **Après modification :**
 - Deployments → ... → Redeploy
