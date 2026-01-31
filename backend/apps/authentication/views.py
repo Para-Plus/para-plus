@@ -200,33 +200,50 @@ def choisir_role(request):
     PATCH /api/auth/choisir-role/
     Body: { "role": "client" | "vendeur" }
     """
-    user_id = request.user.get('user_id')
+    try:
+        print(f"DEBUG choisir_role - request.user type: {type(request.user)}")
+        print(f"DEBUG choisir_role - request.user: {request.user}")
 
-    if not user_id:
+        user_id = request.user.get('user_id')
+
+        if not user_id:
+            print("DEBUG choisir_role - user_id is None")
+            return Response({
+                'error': 'Token invalide'
+            }, status=status.HTTP_401_UNAUTHORIZED)
+
+        print(f"DEBUG choisir_role - user_id: {user_id}")
+        user = User.objects(id=user_id).first()
+
+        if not user:
+            print(f"DEBUG choisir_role - User not found for id: {user_id}")
+            return Response({
+                'error': 'Utilisateur non trouvé'
+            }, status=status.HTTP_404_NOT_FOUND)
+
+        role = request.data.get('role')
+        print(f"DEBUG choisir_role - role requested: {role}")
+
+        # Valider le rôle
+        if role not in ['client', 'vendeur']:
+            return Response({
+                'error': 'Rôle invalide. Choisissez "client" ou "vendeur".'
+            }, status=status.HTTP_400_BAD_REQUEST)
+
+        # Mettre à jour le rôle
+        user.role = role
+        user.save()
+        print(f"DEBUG choisir_role - Role updated successfully to: {role}")
+
         return Response({
-            'error': 'Token invalide'
-        }, status=status.HTTP_401_UNAUTHORIZED)
-
-    user = User.objects(id=user_id).first()
-
-    if not user:
+            'message': 'Rôle choisi avec succès',
+            'user': UserSerializer(user).data
+        }, status=status.HTTP_200_OK)
+    except Exception as e:
+        print(f"ERROR choisir_role - Exception: {str(e)}")
+        print(f"ERROR choisir_role - Exception type: {type(e)}")
+        import traceback
+        traceback.print_exc()
         return Response({
-            'error': 'Utilisateur non trouvé'
-        }, status=status.HTTP_404_NOT_FOUND)
-
-    role = request.data.get('role')
-
-    # Valider le rôle
-    if role not in ['client', 'vendeur']:
-        return Response({
-            'error': 'Rôle invalide. Choisissez "client" ou "vendeur".'
-        }, status=status.HTTP_400_BAD_REQUEST)
-
-    # Mettre à jour le rôle
-    user.role = role
-    user.save()
-
-    return Response({
-        'message': 'Rôle choisi avec succès',
-        'user': UserSerializer(user).data
-    }, status=status.HTTP_200_OK)
+            'error': f'Erreur interne: {str(e)}'
+        }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
