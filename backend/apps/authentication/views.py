@@ -189,3 +189,38 @@ def changer_mot_de_passe(request):
     return Response({
         'message': 'Mot de passe modifié avec succès'
     }, status=status.HTTP_200_OK)
+
+
+@api_view(['PATCH'])
+@permission_classes([IsAuthenticated])
+def choisir_role(request):
+    """
+    Choisir le rôle de l'utilisateur (client ou vendeur).
+    Utilisé après la première connexion Google.
+    PATCH /api/auth/choisir-role/
+    Body: { "role": "client" | "vendeur" }
+    """
+    user_id = request.user.get('user_id')
+    user = User.objects(id=user_id).first()
+
+    if not user:
+        return Response({
+            'error': 'Utilisateur non trouvé'
+        }, status=status.HTTP_404_NOT_FOUND)
+
+    role = request.data.get('role')
+
+    # Valider le rôle
+    if role not in ['client', 'vendeur']:
+        return Response({
+            'error': 'Rôle invalide. Choisissez "client" ou "vendeur".'
+        }, status=status.HTTP_400_BAD_REQUEST)
+
+    # Mettre à jour le rôle
+    user.role = role
+    user.save()
+
+    return Response({
+        'message': 'Rôle choisi avec succès',
+        'user': UserSerializer(user).data
+    }, status=status.HTTP_200_OK)

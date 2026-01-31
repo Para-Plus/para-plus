@@ -40,4 +40,5 @@ export interface AuthResponse {
   access: string;
   refresh: string;
   user: User;
+  needs_role_selection?: boolean; // Indique si l'utilisateur doit choisir son rôle (Google OAuth première connexion)
 }

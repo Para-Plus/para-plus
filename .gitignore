@@ -84,3 +84,4 @@ logs/
 temp/
 NUL
 backup_public_html/
+.env.txt

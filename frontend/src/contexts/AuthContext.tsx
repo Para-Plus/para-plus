@@ -7,7 +7,7 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { authApi } from '@/lib/api/index';
 import { auth as authUtils } from '@/lib/auth';
-import type { User, ConnexionData, InscriptionData } from '@/types';
+import type { User, ConnexionData, InscriptionData, AuthResponse } from '@/types';
 
 interface AuthContextType {
   user: User | null;
@@ -16,7 +16,7 @@ interface AuthContextType {
   register: (data: InscriptionData) => Promise<void>;
   logout: () => Promise<void>;
   refreshUser: () => Promise<void>;
-  loginWithGoogle: (googleToken: string) => Promise<void>;
+  loginWithGoogle: (googleToken: string) => Promise<AuthResponse>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -106,6 +106,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const response = await authApi.googleAuth(googleToken);
       authUtils.login(response.access, response.refresh, response.user);
       setUser(response.user);
+      return response; // Retourner la réponse complète pour accéder à needs_role_selection
     } catch (error) {
       throw error;
     }

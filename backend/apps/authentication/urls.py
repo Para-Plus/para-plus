@@ -14,5 +14,6 @@ urlpatterns = [
     path('profil/', views.profil, name='profil'),
     path('profil/modifier/', views.modifier_profil, name='modifier_profil'),
     path('changer-mot-de-passe/', views.changer_mot_de_passe, name='changer_mot_de_passe'),
+    path('choisir-role/', views.choisir_role, name='choisir_role'),
     path('google/', google_auth, name='google_auth'),
 ]

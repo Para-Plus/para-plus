@@ -55,6 +55,7 @@ def google_auth(request):
 
         # Chercher si l'utilisateur existe déjà avec ce google_id
         user = User.objects(google_id=google_id).first()
+        is_new_user = False
 
         if not user:
             # Vérifier si un compte avec cet email existe
@@ -69,7 +70,9 @@ def google_auth(request):
                     user.est_verifie = True
                 user.save()
             else:
-                # Créer un nouveau compte
+                # Créer un nouveau compte avec rôle temporaire 'client'
+                # L'utilisateur devra choisir son rôle après la première connexion
+                is_new_user = True
                 user = User(
                     email=email,
                     google_id=google_id,
@@ -79,7 +82,7 @@ def google_auth(request):
                     auth_provider='google',
                     est_actif=True,
                     est_verifie=email_verifie,
-                    role='client',
+                    role='client',  # Rôle par défaut, sera modifié lors du choix
                     mot_de_passe='',  # Pas de mot de passe pour OAuth
                 )
                 user.save()
@@ -97,7 +100,8 @@ def google_auth(request):
             'message': 'Connexion Google réussie',
             'access': token_data['access'],
             'refresh': token_data['refresh'],
-            'user': UserSerializer(user).data
+            'user': UserSerializer(user).data,
+            'needs_role_selection': is_new_user  # Indique si l'utilisateur doit choisir son rôle
         }, status=status.HTTP_200_OK)
 
     except ValueError as e:

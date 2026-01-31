@@ -6,6 +6,7 @@
 
 import { GoogleLogin, CredentialResponse } from '@react-oauth/google';
 import { useAuth } from '@/contexts/AuthContext';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 interface GoogleSignInButtonProps {
@@ -20,6 +21,7 @@ export default function GoogleSignInButton({
   text = 'continue_with'
 }: GoogleSignInButtonProps) {
   const { loginWithGoogle } = useAuth();
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
 
   const handleSuccess = (credentialResponse: CredentialResponse) => {
@@ -32,8 +34,13 @@ export default function GoogleSignInButton({
 
     // Exécuter de manière asynchrone sans bloquer
     loginWithGoogle(credentialResponse.credential)
-      .then(() => {
-        onSuccess?.();
+      .then((response) => {
+        // Si l'utilisateur doit choisir son rôle, rediriger vers /choisir-role
+        if (response.needs_role_selection) {
+          router.push('/choisir-role');
+        } else {
+          onSuccess?.();
+        }
       })
       .catch((error: any) => {
         const errorMessage = error?.response?.data?.error || error?.message || 'Erreur lors de la connexion avec Google';
