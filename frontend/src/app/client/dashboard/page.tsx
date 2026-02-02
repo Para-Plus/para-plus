@@ -23,7 +23,9 @@ import {
   ChevronDown,
   ChevronUp,
   MapPin,
+  ExternalLink,
 } from 'lucide-react';
+import Link from 'next/link';
 
 export default function ClientDashboardPage() {
   const { user, loading: authLoading } = useAuth();
@@ -306,6 +308,17 @@ export default function ClientDashboardPage() {
                   {/* Détails dépliables */}
                   {commandeDetailId === commande.id && (
                     <div className="border-t border-gray-200 bg-gray-50 p-6">
+                      {/* Bouton voir détails */}
+                      <div className="mb-6">
+                        <Link
+                          href={`/commandes/${commande.id}`}
+                          className="inline-flex items-center gap-2 text-green-600 hover:text-green-700 font-medium hover:underline"
+                        >
+                          <ExternalLink className="w-4 h-4" />
+                          Voir les détails complets
+                        </Link>
+                      </div>
+
                       {/* Articles */}
                       <div className="mb-6">
                         <h4 className="font-semibold text-gray-900 mb-3">Articles commandés</h4>
