@@ -6,7 +6,7 @@
 
 import Link from 'next/link';
 import { useAuth } from '@/contexts/AuthContext';
-import { ShoppingCart, User, LogOut, Package, LayoutDashboard, UserCircle } from 'lucide-react';
+import { ShoppingCart, User, LogOut, Package, LayoutDashboard, UserCircle, ShoppingBag } from 'lucide-react';
 
 export default function Header() {
   const { user, logout } = useAuth();
@@ -57,13 +57,22 @@ export default function Header() {
 
                 {/* Dashboard Vendeur */}
                 {user.role === 'vendeur' && (
-                  <Link
-                    href="/vendeur/dashboard"
-                    className="flex items-center gap-2 text-gray-700 hover:text-green-600"
-                  >
-                    <Package className="w-5 h-5" />
-                    <span className="hidden sm:inline">Mes Produits</span>
-                  </Link>
+                  <>
+                    <Link
+                      href="/vendeur/dashboard"
+                      className="flex items-center gap-2 text-gray-700 hover:text-green-600"
+                    >
+                      <Package className="w-5 h-5" />
+                      <span className="hidden sm:inline">Mes Produits</span>
+                    </Link>
+                    <Link
+                      href="/vendeur/commandes"
+                      className="flex items-center gap-2 text-gray-700 hover:text-green-600"
+                    >
+                      <ShoppingBag className="w-5 h-5" />
+                      <span className="hidden sm:inline">Mes Commandes</span>
+                    </Link>
+                  </>
                 )}
 
                 {/* Profil */}

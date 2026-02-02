@@ -44,5 +44,13 @@ export const commandesApi = {
   async parVendeur(): Promise<Commande[]> {
     const response = await apiClient.get<Commande[]>('/commandes/vendeur/');
     return response.data;
+  },
+
+  /**
+   * Modifier le statut d'une commande (vendeur uniquement)
+   */
+  async modifierStatut(id: string, statut: string): Promise<Commande> {
+    const response = await apiClient.put<Commande>(`/commandes/${id}/statut/`, { statut });
+    return response.data;
   }
 };
