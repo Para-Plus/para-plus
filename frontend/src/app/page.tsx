@@ -2,11 +2,56 @@
  * Page d'accueil Para-plus.tn - Version moderne et responsive
  */
 
+'use client';
+
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
+import Header from '@/components/Header';
+import { produitsApi } from '@/lib/api/index';
+import type { Produit } from '@/types/produit';
+import { ShoppingCart, Star } from 'lucide-react';
 
 export default function Home() {
+  const [produitsVedette, setProduitsVedette] = useState<Produit[]>([]);
+  const [produitsPromo, setProduitsPromo] = useState<Produit[]>([]);
+  const [chargement, setChargement] = useState(true);
+
+  useEffect(() => {
+    chargerProduits();
+  }, []);
+
+  const chargerProduits = async () => {
+    try {
+      setChargement(true);
+      const data = await produitsApi.lister({ limite: 20 });
+
+      // Produits en promo (avec prix_promo)
+      const promos = data.produits.filter(p => p.prix_promo && p.disponible).slice(0, 4);
+      setProduitsPromo(promos);
+
+      // Produits vedette (les plus récents disponibles)
+      const vedette = data.produits.filter(p => p.disponible).slice(0, 8);
+      setProduitsVedette(vedette);
+    } catch (error) {
+      console.error('Erreur chargement produits:', error);
+    } finally {
+      setChargement(false);
+    }
+  };
+
+  const getPrixAffiche = (produit: Produit) => {
+    return produit.prix_promo || produit.prix;
+  };
+
+  const getReduction = (produit: Produit) => {
+    if (!produit.prix_promo) return 0;
+    return Math.round(((produit.prix - produit.prix_promo) / produit.prix) * 100);
+  };
+
   return (
     <div className="min-h-screen bg-white">
+      <Header />
       {/* Hero Section moderne avec gradient */}
       <section className="relative overflow-hidden bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50">
         {/* Formes décoratives en arrière-plan */}
@@ -149,6 +194,204 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Promotions en cours */}
+      {!chargement && produitsPromo.length > 0 && (
+        <section className="py-16 sm:py-24 bg-gradient-to-br from-red-50 to-orange-50">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-12 sm:mb-16">
+              <div className="inline-flex items-center px-4 py-2 bg-red-100 rounded-full mb-4">
+                <span className="w-2 h-2 bg-red-500 rounded-full animate-pulse mr-2"></span>
+                <span className="text-sm font-medium text-red-800">Offres limitées</span>
+              </div>
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
+                Promotions en cours
+              </h2>
+              <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto">
+                Profitez de nos meilleures offres avant qu'il ne soit trop tard
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {produitsPromo.map((produit) => (
+                <Link
+                  key={produit.id}
+                  href={`/produits/${produit.slug}`}
+                  className="group"
+                >
+                  <div className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
+                    {/* Badge réduction */}
+                    <div className="relative">
+                      <div className="absolute top-3 right-3 z-10">
+                        <div className="bg-red-600 text-white px-3 py-1 rounded-full text-sm font-bold">
+                          -{getReduction(produit)}%
+                        </div>
+                      </div>
+
+                      {/* Image */}
+                      <div className="relative h-48 bg-gray-100">
+                        {produit.images && produit.images.length > 0 ? (
+                          <Image
+                            src={produit.images[0]}
+                            alt={produit.nom}
+                            fill
+                            className="object-cover group-hover:scale-110 transition-transform duration-300"
+                          />
+                        ) : (
+                          <div className="flex items-center justify-center h-full text-gray-400">
+                            <ShoppingCart className="w-12 h-12" />
+                          </div>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Contenu */}
+                    <div className="p-4">
+                      <h3 className="font-semibold text-gray-900 mb-2 line-clamp-2 group-hover:text-green-600 transition-colors">
+                        {produit.nom}
+                      </h3>
+
+                      {/* Prix */}
+                      <div className="flex items-baseline gap-2 mb-2">
+                        <span className="text-2xl font-bold text-green-600">
+                          {getPrixAffiche(produit).toFixed(2)} TND
+                        </span>
+                        {produit.prix_promo && (
+                          <span className="text-sm text-gray-400 line-through">
+                            {produit.prix.toFixed(2)} TND
+                          </span>
+                        )}
+                      </div>
+
+                      {/* Stock */}
+                      <div className="flex items-center justify-between text-sm">
+                        <span className={`${produit.stock > 0 ? 'text-green-600' : 'text-red-600'}`}>
+                          {produit.stock > 0 ? `${produit.stock} en stock` : 'Rupture de stock'}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+
+            <div className="text-center mt-12">
+              <Link
+                href="/produits?promo=true"
+                className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-red-600 to-orange-600 text-white rounded-full text-lg font-semibold hover:shadow-2xl hover:scale-105 transition-all duration-200"
+              >
+                Voir toutes les promotions
+                <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </Link>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Produits en vedette */}
+      {!chargement && produitsVedette.length > 0 && (
+        <section className="py-16 sm:py-24 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-12 sm:mb-16">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
+                Produits en vedette
+              </h2>
+              <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto">
+                Découvrez notre sélection des meilleurs produits
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {produitsVedette.map((produit) => (
+                <Link
+                  key={produit.id}
+                  href={`/produits/${produit.slug}`}
+                  className="group"
+                >
+                  <div className="bg-white border border-gray-200 rounded-2xl overflow-hidden hover:border-green-300 hover:shadow-xl transition-all duration-300 hover:-translate-y-2">
+                    {/* Image */}
+                    <div className="relative h-48 bg-gray-100">
+                      {produit.images && produit.images.length > 0 ? (
+                        <Image
+                          src={produit.images[0]}
+                          alt={produit.nom}
+                          fill
+                          className="object-cover group-hover:scale-110 transition-transform duration-300"
+                        />
+                      ) : (
+                        <div className="flex items-center justify-center h-full text-gray-400">
+                          <ShoppingCart className="w-12 h-12" />
+                        </div>
+                      )}
+
+                      {produit.prix_promo && (
+                        <div className="absolute top-3 right-3">
+                          <div className="bg-red-600 text-white px-2 py-1 rounded-full text-xs font-bold">
+                            -{getReduction(produit)}%
+                          </div>
+                        </div>
+                      )}
+
+                      {produit.disponible_location && (
+                        <div className="absolute top-3 left-3">
+                          <div className="bg-blue-600 text-white px-2 py-1 rounded-full text-xs font-medium">
+                            Location
+                          </div>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Contenu */}
+                    <div className="p-4">
+                      <h3 className="font-semibold text-gray-900 mb-2 line-clamp-2 group-hover:text-green-600 transition-colors">
+                        {produit.nom}
+                      </h3>
+
+                      {/* Marque */}
+                      {produit.marque && (
+                        <p className="text-sm text-gray-500 mb-2">{produit.marque}</p>
+                      )}
+
+                      {/* Prix */}
+                      <div className="flex items-baseline gap-2 mb-2">
+                        <span className="text-xl font-bold text-green-600">
+                          {getPrixAffiche(produit).toFixed(2)} TND
+                        </span>
+                        {produit.prix_promo && (
+                          <span className="text-sm text-gray-400 line-through">
+                            {produit.prix.toFixed(2)} TND
+                          </span>
+                        )}
+                      </div>
+
+                      {/* Stock */}
+                      <div className="text-sm">
+                        <span className={`${produit.stock > 0 ? 'text-green-600' : 'text-red-600'}`}>
+                          {produit.stock > 0 ? 'En stock' : 'Rupture de stock'}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+
+            <div className="text-center mt-12">
+              <Link
+                href="/produits"
+                className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-green-600 to-emerald-600 text-white rounded-full text-lg font-semibold hover:shadow-2xl hover:scale-105 transition-all duration-200"
+              >
+                Voir tous les produits
+                <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </Link>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Features avec icônes modernes */}
       <section className="py-16 sm:py-24 bg-gray-50">
