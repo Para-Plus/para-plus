@@ -6,7 +6,6 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import Header from '@/components/Header';
 import { panierApi, commandesApi } from '@/lib/api/index';
 import type { Panier } from '@/types/panier';
 import type { AdresseLivraison, CreerCommandeData } from '@/types/commande';

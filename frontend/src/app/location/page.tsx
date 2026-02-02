@@ -5,7 +5,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Header from '@/components/Header';
 import CarteProduit from '@/components/produits/CarteProduit';
 import { produitsApi } from '@/lib/api/index';
 import type { Produit, FiltreProduits } from '@/types/produit';
@@ -52,8 +51,6 @@ export default function LocationPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Header />
-
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Hero Section */}
         <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl p-12 text-white mb-12">

@@ -7,7 +7,6 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import Header from '@/components/Header';
 import { panierApi } from '@/lib/api/index';
 import type { Panier, ArticlePanier } from '@/types/panier';
 import { useAuth } from '@/contexts/AuthContext';

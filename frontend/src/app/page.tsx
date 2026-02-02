@@ -7,7 +7,6 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import Header from '@/components/Header';
 import { produitsApi } from '@/lib/api/index';
 import type { Produit } from '@/types/produit';
 import { ShoppingCart, Star } from 'lucide-react';
@@ -51,7 +50,6 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-white">
-      <Header />
       {/* Hero Section moderne avec gradient */}
       <section className="relative overflow-hidden bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50">
         {/* Formes décoratives en arrière-plan */}

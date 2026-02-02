@@ -8,7 +8,6 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
-import Header from '@/components/Header';
 import { produitsApi, commandesApi } from '@/lib/api/index';
 import type { Produit } from '@/types/produit';
 import type { Commande } from '@/types/commande';

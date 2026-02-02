@@ -8,7 +8,6 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
-import Header from '@/components/Header';
 import CarteProduit from '@/components/produits/CarteProduit';
 import { produitsApi, panierApi } from '@/lib/api/index';
 import type { Produit } from '@/types/produit';
@@ -117,7 +116,6 @@ export default function ProduitDetailPage() {
   if (chargement) {
     return (
       <div className="min-h-screen bg-gray-50">
-        <Header />
         <div className="flex items-center justify-center py-20">
           <Loader2 className="w-8 h-8 text-green-600 animate-spin" />
           <span className="ml-3 text-gray-600">Chargement du produit...</span>
@@ -129,7 +127,6 @@ export default function ProduitDetailPage() {
   if (erreur || !produit) {
     return (
       <div className="min-h-screen bg-gray-50">
-        <Header />
         <div className="max-w-7xl mx-auto px-4 py-20">
           <div className="bg-red-50 border border-red-200 rounded-lg p-8 text-center">
             <p className="text-red-800 text-lg mb-4">{erreur}</p>
@@ -150,8 +147,6 @@ export default function ProduitDetailPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Header />
-
       {/* Message succès */}
       {messageSucces && (
         <div className="fixed top-20 right-4 bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg flex items-center gap-2 z-50 animate-slide-in">

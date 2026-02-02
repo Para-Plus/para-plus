@@ -7,7 +7,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
-import Header from '@/components/Header';
 import { commandesApi } from '@/lib/api/index';
 import type { Commande, StatutCommande, StatutPaiement } from '@/types/commande';
 import { useAuth } from '@/contexts/AuthContext';
