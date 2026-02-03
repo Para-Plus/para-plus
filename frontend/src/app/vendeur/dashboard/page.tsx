@@ -83,7 +83,6 @@ export default function VendeurDashboardPage() {
   if (chargement) {
     return (
       <div className="min-h-screen bg-gray-50">
-        <Header />
         <div className="flex items-center justify-center py-20">
           <Loader2 className="w-8 h-8 text-green-600 animate-spin" />
           <span className="ml-3 text-gray-600">Chargement...</span>
@@ -104,8 +103,6 @@ export default function VendeurDashboardPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Header />
-
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* En-tête */}
         <div className="mb-8">
