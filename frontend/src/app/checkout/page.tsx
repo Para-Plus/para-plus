@@ -155,7 +155,6 @@ export default function CheckoutPage() {
   if (chargement) {
     return (
       <div className="min-h-screen bg-gray-50">
-        <Header />
         <div className="flex items-center justify-center py-20">
           <Loader2 className="w-8 h-8 text-green-600 animate-spin" />
           <span className="ml-3 text-gray-600">Chargement...</span>
@@ -167,7 +166,6 @@ export default function CheckoutPage() {
   if (erreur && !panier) {
     return (
       <div className="min-h-screen bg-gray-50">
-        <Header />
         <div className="max-w-7xl mx-auto px-4 py-20">
           <div className="bg-red-50 border border-red-200 rounded-lg p-8 text-center">
             <AlertCircle className="w-12 h-12 text-red-600 mx-auto mb-4" />
@@ -191,7 +189,6 @@ export default function CheckoutPage() {
   if (etape === 'confirmation') {
     return (
       <div className="min-h-screen bg-gray-50">
-        <Header />
         <div className="max-w-2xl mx-auto px-4 py-20">
           <div className="bg-white rounded-lg shadow-md p-12 text-center">
             <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -217,8 +214,6 @@ export default function CheckoutPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Header />
-
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* En-tête */}
         <div className="mb-8">

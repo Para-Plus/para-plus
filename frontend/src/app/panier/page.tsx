@@ -106,7 +106,6 @@ export default function PanierPage() {
   if (chargement) {
     return (
       <div className="min-h-screen bg-gray-50">
-        <Header />
         <div className="flex items-center justify-center py-20">
           <Loader2 className="w-8 h-8 text-green-600 animate-spin" />
           <span className="ml-3 text-gray-600">Chargement du panier...</span>
@@ -118,7 +117,6 @@ export default function PanierPage() {
   if (erreur) {
     return (
       <div className="min-h-screen bg-gray-50">
-        <Header />
         <div className="max-w-7xl mx-auto px-4 py-20">
           <div className="bg-red-50 border border-red-200 rounded-lg p-8 text-center">
             <AlertCircle className="w-12 h-12 text-red-600 mx-auto mb-4" />
@@ -139,8 +137,6 @@ export default function PanierPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Header />
-
       <div className="max-w-7xl mx-auto px-4 py-8">
         <h1 className="text-3xl font-bold text-gray-900 mb-8">Mon Panier</h1>
 
